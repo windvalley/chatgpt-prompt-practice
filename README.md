@@ -208,3 +208,114 @@ prompt = f"""
 ### 文本转换
 
 LLM 非常擅长将输入转换成不同的格式，例如多语种文本翻译、拼写及语法纠正、语气调整、格式转换等。
+
+1. 翻译+输出语气
+
+   ````python
+   text = f"""
+   Would you like to order a pillow?
+   """
+   prompt = f"""
+   请将以下文本翻译成中文，分别展示成正式与非正式两种语气:
+   ```{text}```
+   """
+   response = get_completion(prompt)
+   print(response)
+   ````
+
+2. 语气/风格调整
+
+   ````python
+   text = f"""
+   小老弟，我小羊，上回你说咱部门要采购的显示器是多少寸来着？
+   """
+   prompt = f"""
+   将以下文本翻译成商务信函的格式:
+   ```{text}```
+   """
+   response = get_completion(prompt)
+   print(response)
+   ````
+
+3. ChatGPT 非常擅长不同格式之间的转换，例如 JSON 到 HTML、XML、Markdown 等
+
+   ```python
+   data_json = { "resturant employees" :[
+       {"name":"Shyam", "email":"shyamjaiswal@gmail.com"},
+       {"name":"Bob", "email":"bob32@gmail.com"},
+       {"name":"Jai", "email":"jai87@gmail.com"}
+   ]}
+   prompt = f"""
+   将以下Python字典从JSON转换为HTML表格，保留表格标题和列名：{data_json}
+   """
+   response = get_completion(prompt)
+   print(response)
+
+   # 渲染(不适用于ipython, 适用于jupyter notebook)
+   from IPython.display import display, Markdown, Latex, HTML, JSON
+   display(HTML(response))
+   ```
+
+4. 拼写及语法纠正
+
+   输入原始文本，输出纠正后的文本，并基于 Redlines 输出纠错过程。
+
+   ````python
+   # 如未安装redlines，需先安装
+   !pip3 install redlines
+
+   text = f"""
+   Got this for my daughter for her birthday cuz she keeps taking \
+   mine from my room.  Yes, adults also like pandas too.  She takes \
+   it everywhere with her, and it's super soft and cute.  One of the \
+   ears is a bit lower than the other, and I don't think that was \
+   designed to be asymmetrical. It's a bit small for what I paid for it \
+   though. I think there might be other options that are bigger for \
+   the same price.  It arrived a day earlier than expected, so I got \
+   to play with it myself before I gave it to my daughter.
+   """
+   prompt = f"校对并更正以下商品评论：```{text}```"
+   response = get_completion(prompt)
+   print(response)
+
+   from redlines import Redlines
+   from IPython.display import display, Markdown
+
+   diff = Redlines(text,response)
+   display(Markdown(diff.output_markdown))
+   ````
+
+5. 综合样例：文本翻译+拼写纠正+风格调整+格式转换
+
+   ````python
+   text = f"""
+   Got this for my daughter for her birthday cuz she keeps taking \
+   mine from my room.  Yes, adults also like pandas too.  She takes \
+   it everywhere with her, and it's super soft and cute.  One of the \
+   ears is a bit lower than the other, and I don't think that was \
+   designed to be asymmetrical. It's a bit small for what I paid for it \
+   though. I think there might be other options that are bigger for \
+   the same price.  It arrived a day earlier than expected, so I got \
+   to play with it myself before I gave it to my daughter.
+   """
+   prompt = f"""
+   针对以下三个反引号之间的英文评论文本，
+   首先进行拼写及语法纠错，
+   然后将其转化成中文，
+   再将其转化成优质淘宝评论的风格，从各种角度出发，分别说明产品的优点与缺点，并进行总结。
+   润色一下描述，使评论更具有吸引力。
+   输出结果格式为：
+   【优点】xxx
+   【缺点】xxx
+   【总结】xxx
+   注意，只需填写xxx部分，并分段输出。
+   将结果输出成Markdown格式。
+   ```{text}```
+   """
+   response = get_completion(prompt)
+
+   from IPython.display import display, Markdown
+   display(Markdown(response))
+   ````
+
+### 文本扩展

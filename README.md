@@ -39,9 +39,9 @@ $ pip3 install -U python-dotenv
 # 运行
 $ ipython
 
-# 在ipython终端运行load.py文件, 加载openai相关环境和配置,
+# 在ipython终端运行env.py文件, 加载openai相关环境和配置,
 # 为之后使用chatgpt提供相关配置和函数.
-In [1]: %run load.py
+In [1]: %run env.py
 ```
 
 Tips:
@@ -63,8 +63,8 @@ $ pip3 install -U python-dotenv
 # 新建notebook, 后续操作类似ipython.
 $ jupyter notebook
 
-# 在notebook界面, 运行load.py文件, 为之后使用chatgpt提供相关配置和函数.
-In [  ]: %run load.py
+# 在notebook界面, 运行env.py文件, 为之后使用chatgpt提供相关配置和函数.
+In [  ]: %run env.py
 ```
 
 Tips:
@@ -83,7 +83,7 @@ Tips:
 
 ### 提问示例
 
-运行`ipython`或`jupyter notebook`, 在界面上执行完 `%run load.py` 后, 再输入以下内容并运行, 将得到模型的回答.
+运行`ipython`或`jupyter notebook`, 在界面上执行完 `%run env.py` 后, 再输入以下内容并运行, 将得到模型的回答.
 
 ```python
 text = f"""
@@ -319,3 +319,40 @@ LLM 非常擅长将输入转换成不同的格式，例如多语种文本翻译�
    ````
 
 ### 文本扩展
+
+扩展是将短文本，例如一组说明或主题列表，输入到大型语言模型中，让模型生成更长的文本，例如基于某个主题的电子邮件或论文。
+
+温度系数如何使用:
+
+- 可以将温度视为模型探索或随机性的程度。在构建需要可预测响应的应用程序时，我建议使用温度为零。
+- 如果您尝试以更具创意的方式使用模型，可能需要更广泛地输出不同的结果，那么您可能需要使用更高的温度。您几乎可以将其视为在更高的温度下，助手更易分心，但也许更有创造力。
+
+  ```python
+  # 将温度参数从0调整为0.7
+  response = get_completion(prompt, t=0.7)
+  print(response)
+  ```
+
+### 聊天机器人
+
+可以使用 LLM 来构建一个定制的聊天机器人，只需要很少的工作量。
+
+由于涉及到图型界面, 所以必须用 `jupyter notebook` 来演示:
+
+```python
+# 安装GUI
+In [  ]: !pip install panel
+
+# 加载聊天机器人
+In [  ]: %run chat_robot.py
+
+# 运行对话框, 并进行对话查看效果
+In [  ]: dashboard
+```
+
+具体实现方式请参考 [chat_robot.py](chat_robot.py) 脚本, 可以通过修改 `context` 变量改变系统消息内容, 来确定你要实现什么样的聊天机器人.
+
+## 参考文档
+
+- https://github.com/datawhalechina/prompt-engineering-for-developers
+- https://github.com/rockbenben/ChatGPT-Shortcut

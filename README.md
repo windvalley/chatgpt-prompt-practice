@@ -83,7 +83,7 @@ Tips:
 
 ### 提问示例
 
-运行`ipython`或`jupyter notebook`, 在界面上执行完 `%run env.py` 后, 再输入以下内容并运行, 将得到模型的回答.
+运行`ipython`或`jupyter notebook`, 执行完 `%run env.py` 后, 再按以下模版输入内容并运行, 将得到模型的回答.
 
 ```python
 text = f"""
@@ -107,7 +107,7 @@ print(response)
 
 ### 模型局限性
 
-偶尔会给出虚假知识(幻觉), 会生成一些看似真实实则编造的知识, 这是模型已知的一个弱点.
+LLM 偶尔会给出虚假知识(幻觉), 会生成一些看似真实实则编造的知识, 这是模型已知的一个弱点.
 
 暂时的解决策略是先要求模型找到文本中的任何相关引用，然后要求它使用这些引用来回答问题，这种追溯源文档的方法通常对减少幻觉非常有帮助。
 
@@ -355,4 +355,5 @@ In [  ]: dashboard
 ## 参考文档
 
 - https://github.com/datawhalechina/prompt-engineering-for-developers
+- https://github.com/datawhalechina/hugging-llm
 - https://github.com/rockbenben/ChatGPT-Shortcut
